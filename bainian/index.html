@@ -8,7 +8,7 @@
         #canvas {
             border: 1px solid #aaaaaa;
             display: block;
-            margin: 50px auto;
+            margin: 0   px auto;
         }
     </style>
 
@@ -19,18 +19,21 @@
     <canvas id="canvas">
         你的浏览器居然不支持Canvas？！赶快换一个吧！！
     </canvas>
+    <p><a href="#">(动画可能加载的有点慢，暂时还不会弄，请耐心等待，见谅)</a>
     <p><a href="http://kylin1702.github.io/linyk-app/粒子动画">
+
         看浓浓的年味儿，说悠悠的年事儿，
         描红红的年画儿，盼火火的年景儿，
         品甜甜的年糕儿，吃香香的年饭儿，
         抱胖胖的年兔儿，读暖暖的年信儿！
-        春节快乐！
+        益坤祝您春节快乐！收到的各位都是我的重要的人！
+        thank you for Accompany me through these days!
     </a></p>
 </div>
 
 <script src="js/index.js"></script>
 <script>
-    var f = 0.92   ;
+    var f = 0.95;
 
     function Ball(x, y, r, g, vx, vy, red, green, blue) {
         this.x = x;
@@ -47,16 +50,16 @@
     window.onload = function () {
         var canvas = document.getElementById("canvas");
         canvas.width = 1080;
-        canvas.height = 1000;
+        canvas.height = 1920;
         var context = canvas.getContext("2d");
 
         context.globalAlpha = 0.5
         context.globalCompositeOperation = "source-over"
 
-        for (var i = 0; i < 20; i++) {
+        for (var i = 0; i < 30; i++) {
             var x = Math.random() * canvas.width + 40;
             var y = Math.random() * canvas.height + 40;
-            var r = Math.random() * 20 + 5;
+            var r = Math.random() * 50 + 5;
             var g = 3;
             var vx = Math.random() * 10 - 5;
             var vy = Math.random() * 20 - 5;
