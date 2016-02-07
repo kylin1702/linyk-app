@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>物理小实验</title>
+    <style>
+        #canvas {
+            border: 1px solid #aaaaaa;
+            display: block;
+            margin: 50px auto;
+        }
+    </style>
+</head>
+<body>
+<div id="canvas-warp">
+    <canvas id="canvas">
+        你的浏览器居然不支持Canvas？！赶快换一个吧！！
+    </canvas>
+</div>
+
+<script>
+
+    function Ball(x, y, radius, g, vx, vy, red, green, blue) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.g = g;
+        this.vx = vx;
+        this.vy = vy;
+        this.color = "rgb(" + red + "," + green + "," + blue + ")";
+    }
+
+    var balls = [];
+    for (var i = 0; i < 1; i++) {
+        var x = Math.random() * canvas.width;
+        var y = Math.random() * canvas.height;
+        var radius = Math.random() * 20;
+        var vx = Math.random() * 10 - 5;
+        var vy = Math.random() * 10 - 5;
+        var red = Math.floor(Math.random() * 255);
+        var green = Math.floor(Math.random() * 255);
+        var blue = Math.floor(Math.random() * 255);
+        balls[i] = new Ball(x, y, 20, 2, vx, vy, red, green, blue);
+    }
+
+    window.onload = function () {
+        var canvas = document.getElementById("canvas");
+        canvas.width = 1024;
+        canvas.height = 768;
+        var context = canvas.getContext("2d");
+
+        setInterval(
+                function () {
+                    render(context);
+                    update();
+                },
+                50
+        );
+    };
+
+
+    function update() {
+        for (var i = 0; i < 1; i++) {
+            balls[i].x += balls[i].vx;
+            balls[i].y += balls[i].vy;
+            balls[i].vy += balls[i].g;
+
+            //碰撞检测
+            if (balls[i].y + balls[i].radius >= canvas.height) {
+                balls[i].vy = -balls[i].vy
+                balls[i].y = canvas.height - balls[i].radius
+            }
+
+            if (balls[i].y - balls[i].radius <= 0) {
+                balls[i].vy = -balls[i].vy
+                balls[i].y = balls[i].radius
+            }
+
+            if (balls[i].x + balls[i].radius >= canvas.width) {
+                balls[i].vx = -balls[i].vx
+                balls[i].x = canvas.width - balls[i].radius
+            }
+
+            if (balls[i].x - balls[i].radius <= 0) {
+                balls[i].vx = -balls[i].vx
+                balls[i].x = balls[i].radius
+            }
+
+        }
+    }
+
+    function render(cxt) {
+        cxt.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (var i = 0; i < 1; i++){
+            cxt.fillStyle = balls[i].color;
+            cxt.beginPath();
+            cxt.arc(balls[i].x, balls[i].y, balls[i].radius, 0, Math.PI * 2)
+            cxt.closePath();
+            cxt.fill();
+        }
+
+
+
+    }
+
+</script>
+</body>
+</html>
