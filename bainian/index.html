@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>林益坤给您拜年啦！</title>
+    <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
+  <style>
+        #canvas {
+            border: 1px solid #aaaaaa;
+            display: block;
+            margin: 50px auto;
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="canvas-warp">
+    <canvas id="canvas">
+        你的浏览器居然不支持Canvas？！赶快换一个吧！！
+    </canvas>
+    <p><a href="http://kylin1702.github.io/linyk-app/粒子动画">
+        看浓浓的年味儿，说悠悠的年事儿，
+        描红红的年画儿，盼火火的年景儿，
+        品甜甜的年糕儿，吃香香的年饭儿，
+        抱胖胖的年兔儿，读暖暖的年信儿！
+        春节快乐！
+    </a></p>
+</div>
+
+<script src="js/index.js"></script>
+<script>
+    var f = 0.92   ;
+
+    function Ball(x, y, r, g, vx, vy, red, green, blue) {
+        this.x = x;
+        this.y = y;
+        this.r = r;
+        this.g = g;
+        this.vx = vx;
+        this.vy = vy;
+        this.color = "rgb(" + red + "," + green + "," + blue + ")";
+    }
+
+    var balls = [];
+
+    window.onload = function () {
+        var canvas = document.getElementById("canvas");
+        canvas.width = 1080;
+        canvas.height = 1000;
+        var context = canvas.getContext("2d");
+
+        context.globalAlpha = 0.5
+        context.globalCompositeOperation = "source-over"
+
+        for (var i = 0; i < 20; i++) {
+            var x = Math.random() * canvas.width + 40;
+            var y = Math.random() * canvas.height + 40;
+            var r = Math.random() * 20 + 5;
+            var g = 3;
+            var vx = Math.random() * 10 - 5;
+            var vy = Math.random() * 20 - 5;
+            var red = Math.floor(Math.random() * 255);
+            var green = Math.floor(Math.random() * 255);
+            var blue = Math.floor(Math.random() * 255);
+            balls[i] = new Ball(x, y, r, g, vx, vy, red, green, blue);
+        }
+
+        setInterval(function () {
+            render(context);
+            update();
+        }, 50)
+    }
+
+    function update() {
+        for (var i = 0; i < balls.length; i++) {
+            balls[i].x += balls[i].vx;
+            balls[i].y += balls[i].vy;
+
+            balls[i].vy += balls[i].g;
+
+            if (balls[i].y + balls[i].r >= canvas.height) {
+                balls[i].y = canvas.height - balls[i].r
+                balls[i].vy = -balls[i].vy * f
+            }
+
+            if (balls[i].y - balls[i].r <= 0) {
+                balls[i].y = balls[i].r
+                balls[i].vy = -balls[i].vy * f
+            }
+
+            if (balls[i].x + balls[i].r >= canvas.width) {
+                balls[i].x = canvas.width - balls[i].r
+                balls[i].vx = -balls[i].vx * f
+            }
+
+            if (balls[i].x - balls[i].r <= 0) {
+                balls[i].x = balls[i].r
+                balls[i].vx = -balls[i].vx * f
+            }
+        }
+    }
+
+    function render(cxt) {
+        cxt.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (var i = 0; i < balls.length; i++) {
+            cxt.fillStyle = balls[i].color
+            cxt.beginPath();
+            cxt.arc(balls[i].x, balls[i].y, balls[i].r, 0, Math.PI * 2);
+            cxt.closePath();
+            cxt.fill();
+        }
+
+    }
+
+
+
+</script>
+
+</body>
+</html>
